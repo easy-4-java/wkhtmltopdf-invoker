@@ -11,9 +11,9 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
-import com.github.hiwepy.wkhtmltox4j.source.InputStreamSource;
-import com.github.hiwepy.wkhtmltox4j.source.Source;
-import com.github.hiwepy.wkhtmltox4j.source.UrlSource;
+import io.github.hiwepy.wkhtmltox4j.source.InputStreamSource;
+import io.github.hiwepy.wkhtmltox4j.source.Source;
+import io.github.hiwepy.wkhtmltox4j.source.UrlSource;
 import com.ztomic.Calibre.argument.Argument;
 import com.ztomic.Calibre.argument.Option;
 
