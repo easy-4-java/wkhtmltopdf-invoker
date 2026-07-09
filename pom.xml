@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.hiwepy</groupId>
 	<artifactId>wkhtmltopdf-invoker</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>3.0.x.20260630-SNAPSHOT</version>
 	<description>A component to programmatically invoke wkhtmltopdf.</description>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<url>https://github.com/hiwepy/${project.artifactId}</url>
