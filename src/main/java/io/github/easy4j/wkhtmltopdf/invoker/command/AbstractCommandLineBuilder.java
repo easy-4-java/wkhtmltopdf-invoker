@@ -44,6 +44,10 @@ public abstract class AbstractCommandLineBuilder {
 
 	protected File wkhtmltopdfHome;
 
+	protected File calibreHome;
+
+	protected File calibreExecutable;
+
 	protected File wkhtmltopdfExecutable;
 
 	protected Properties systemEnvVars;
@@ -84,6 +88,15 @@ public abstract class AbstractCommandLineBuilder {
 	protected abstract void doCommandInternal(InvocationRequest request,Commandline cli) throws CommandLineConfigurationException;
 	
 	protected abstract File findWkhtmltopdfExecutable() throws CommandLineConfigurationException, IOException;
+
+	protected File findCalibreHome() throws CommandLineConfigurationException, IOException {
+		return findWkhtmltopdfHome();
+	}
+
+	protected File findCalibreExecutable() throws CommandLineConfigurationException, IOException {
+		return null;
+	}
+
 	
 	
 	protected void checkRequiredState() throws IOException {

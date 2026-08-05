@@ -38,6 +38,8 @@ public interface InvocationRequest {
 	 */
 	boolean isShellEnvironmentInherited();
 
+	boolean isVerbose();
+
 	/**
 	 * Gets the handler used to capture the standard output from the wkhtmltopdf build.
 	 * 
