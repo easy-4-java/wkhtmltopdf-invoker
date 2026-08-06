@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018, hiwepy (https://github.com/hiwepy).
+ * Copyright (c) 2018, Loong Wan (https://github.com/loong10k).
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -35,6 +35,20 @@ public abstract class AbstractInvocationRequest implements InvocationRequest {
 	 * Indicates whether Collate when printing multiple copies
 	 */
 	private boolean collate;
+
+	private boolean debug;
+
+	private File outputFile;
+
+	private int imageDpi;
+
+	private boolean grayscale;
+
+	private int dpi;
+
+	private int copies;
+
+	private File cookieJar;
 
 	private InvocationOutputHandler errorHandler;
 
@@ -77,6 +91,30 @@ public abstract class AbstractInvocationRequest implements InvocationRequest {
 	public InvocationRequest setDebug(boolean debug) {
 		this.debug = debug;
 		return this;
+	}
+
+	public InvocationRequest setOutputFile(File outputFile) {
+		this.outputFile = outputFile;
+		return this;
+	}
+
+	public InvocationRequest setImageDpi(int dpi) {
+		this.imageDpi = dpi;
+		return this;
+	}
+
+	public InvocationRequest setDpi(int dpi) {
+		this.dpi = dpi;
+		return this;
+	}
+
+	public InvocationRequest setGrayscale(boolean grayscale) {
+		this.grayscale = grayscale;
+		return this;
+	}
+
+	public boolean isVerbose() {
+		return verbose;
 	}
 
 	public InvocationRequest setErrorHandler(InvocationOutputHandler errorHandler) {
@@ -124,9 +162,7 @@ public abstract class AbstractInvocationRequest implements InvocationRequest {
 		return this;
 	}
 
-	public boolean isVerbose() {
-		return verbose;
-	}
+	
 
 	public InvocationRequest setVerbose(boolean verbose) {
 		this.verbose = verbose;
@@ -143,6 +179,47 @@ public abstract class AbstractInvocationRequest implements InvocationRequest {
 
 	public Map<String, String> getShellEnvironments() {
 		return shellEnvironments == null ? Collections.<String, String>emptyMap() : shellEnvironments;
+	}
+
+
+	public boolean isCollate() {
+		return this.collate;
+	}
+
+	public File getCookieJar() {
+		return this.cookieJar;
+	}
+
+	public int getCopies() {
+		return this.copies;
+	}
+
+	public int getDpi() {
+		return this.dpi;
+	}
+
+	public boolean isGrayscale() {
+		return this.grayscale;
+	}
+
+	public int getImageDpi() {
+		return this.imageDpi;
+	}
+
+
+	public InvocationRequest setCollate(boolean collate) {
+		this.collate = collate;
+		return this;
+	}
+
+	public InvocationRequest setCookieJar(File cookieJar) {
+		this.cookieJar = cookieJar;
+		return this;
+	}
+
+	public InvocationRequest setCopies(int copies) {
+		this.copies = copies;
+		return this;
 	}
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2018, hiwepy (https://github.com/hiwepy).
+ * Copyright (c) 2018, Loong Wan (https://github.com/loong10k).
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -21,9 +21,10 @@ import java.io.IOException;
 import org.codehaus.plexus.util.Os;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import io.github.easy4j.calibre.invoker.exception.CommandLineConfigurationException;
-import io.github.easy4j.calibre.invoker.request.InvocationRequest;
-import io.github.easy4j.calibre.invoker.request.Lrs2lrfInvocationRequest;
+import io.github.easy4j.wkhtmltopdf.invoker.exception.CommandLineConfigurationException;
+import io.github.easy4j.wkhtmltopdf.invoker.request.InvocationRequest;
+import io.github.easy4j.wkhtmltopdf.invoker.request.WkhtmlToImageInvocationRequest;
+
 
 /**
  * Compile an LRS file into an LRF file.
@@ -110,4 +111,10 @@ public class WkhtmlToImageCommandLineBuilder extends AbstractCommandLineBuilder 
 	 
 	
 
+
+
+	@Override
+	protected File findWkhtmltopdfExecutable() throws CommandLineConfigurationException, IOException {
+		return new File("wkhtmltoimage");
+	}
 }
