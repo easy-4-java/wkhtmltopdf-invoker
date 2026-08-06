@@ -2,6 +2,8 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
+[![Java](https://img.shields.io/badge/Java-8-orange)](https://github.com/easy-4-java/wkhtmltopdf-invoker) [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
+
 A component to programmatically invoke wkhtmltopdf. A Java-based wrapper around the [wkhtmltopdf](https://wkhtmltopdf.org/) command-line tool (and its `wkhtmltoimage` sibling), converting HTML documents to PDF / images by driving the external binary as a subprocess.
 
 ## Table of Contents
