@@ -2,6 +2,8 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
+[![Java](https://img.shields.io/badge/Java-21-orange)](https://github.com/easy-4-java/wkhtmltopdf-invoker) [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
+
 A component to programmatically invoke wkhtmltopdf. —— 基于 Java 的 [wkhtmltopdf](https://wkhtmltopdf.org/) 命令行工具（及其姊妹命令 `wkhtmltoimage`）封装组件，通过驱动外部二进制子进程将 HTML 文档转换为 PDF / 图片。
 
 ## 目录
