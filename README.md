@@ -1,13 +1,10 @@
-[English](./README.md) | [简体中文](./README.zh-CN.md)
-
 # wkhtmltopdf-invoker
 
-![Java](https://img.shields.io/badge/Java-17-blue)
-![License](https://img.shields.io/badge/License-Apache%202.0-blue)
+[English](./README.md) | [简体中文](./README.zh-CN.md)
 
-**A component to programmatically invoke wkhtmltopdf.** A Java-based wrapper around the [wkhtmltopdf](https://wkhtmltopdf.org/) command-line tool (and its `wkhtmltoimage` sibling), converting HTML documents to PDF / images by driving the external binary as a subprocess.
+A component to programmatically invoke wkhtmltopdf. A Java-based wrapper around the [wkhtmltopdf](https://wkhtmltopdf.org/) command-line tool (and its `wkhtmltoimage` sibling), converting HTML documents to PDF / images by driving the external binary as a subprocess.
 
-**Navigation**
+## Table of Contents
 
 - [1. Project Overview](#1-project-overview)
 - [2. Features & Status](#2-features--status)
@@ -238,7 +235,7 @@ See `wkhtmltopdf.txt` at the repository root for the full command-line reference
 | `feature/3.0.x` | 21 | `3.0.x.*` | Latest line |
 
 - Snapshot versions follow the `1.0.x.yyyyMMdd-SNAPSHOT` scheme; releases are tagged `v{version}` and published through the project's private repository and GitHub Releases.
-- The `feature/2.0.x` line is the actively maintained JDK 8 line; upgrade to `feature/2.0.x` (JDK 17) or `feature/3.0.x` (JDK 21) for newer JDK baselines.
+- The `feature/1.0.x` line is the actively maintained JDK 8 line; upgrade to `feature/2.0.x` (JDK 17) or `feature/3.0.x` (JDK 21) for newer JDK baselines.
 
 ## 11. Contributing & License
 

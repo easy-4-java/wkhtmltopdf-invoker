@@ -1,13 +1,10 @@
-[English](./README.md) | [简体中文](./README.zh-CN.md)
-
 # wkhtmltopdf-invoker
 
-![Java](https://img.shields.io/badge/Java-17-blue)
-![License](https://img.shields.io/badge/License-Apache%202.0-blue)
+[English](./README.md) | [简体中文](./README.zh-CN.md)
 
-**A component to programmatically invoke wkhtmltopdf.** —— 基于 Java 的 [wkhtmltopdf](https://wkhtmltopdf.org/) 命令行工具（及其姊妹命令 `wkhtmltoimage`）封装组件，通过驱动外部二进制子进程将 HTML 文档转换为 PDF / 图片。
+A component to programmatically invoke wkhtmltopdf. —— 基于 Java 的 [wkhtmltopdf](https://wkhtmltopdf.org/) 命令行工具（及其姊妹命令 `wkhtmltoimage`）封装组件，通过驱动外部二进制子进程将 HTML 文档转换为 PDF / 图片。
 
-**导航**
+## 目录
 
 - [1. 项目概述](#1-项目概述)
 - [2. 能力与状态](#2-能力与状态)
@@ -238,7 +235,7 @@ invoker.setLogger(new PrintStreamLogger(System.err));
 | `feature/3.0.x` | 21 | `3.0.x.*` | 最新版本线 |
 
 - 快照版本遵循 `1.0.x.yyyyMMdd-SNAPSHOT` 命名；发布版本以 `v{version}` 打标签，并通过项目私有仓库与 GitHub Releases 分发。
-- `feature/2.0.x` 是持续维护的 JDK 8 版本线；需要更新的 JDK 基线请升级到 `feature/2.0.x`（JDK 17）或 `feature/3.0.x`（JDK 21）。
+- `feature/1.0.x` 是持续维护的 JDK 8 版本线；需要更新的 JDK 基线请升级到 `feature/2.0.x`（JDK 17）或 `feature/3.0.x`（JDK 21）。
 
 ## 11. 贡献与许可
 
