@@ -356,7 +356,7 @@
                 <additionalparam>-Xdoclint:none</additionalparam>
                 <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
             
-		<jsoup.version>1.22.2</jsoup.version></properties>
+		<jsoup.version>1.23.1</jsoup.version></properties>
         </profile>
         <!-- 发布到 Maven Central Portal：mvn -Prelease deploy（GPG 签名 + 源码 + Javadoc + Central 发布插件） -->
 
