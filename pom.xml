@@ -500,6 +500,7 @@
         <fastjson.version>2.0.62</fastjson.version>
         <java.version>17</java.version>
         <junit.version>4.13.2</junit.version>
+        <junit-jupiter.version>6.1.0</junit-jupiter.version>
         <slf4j.version>2.0.18</slf4j.version>
         <plexus-annotations.version>1.7.1</plexus-annotations.version>
         <plexus-classworlds.version>2.5.2</plexus-classworlds.version>
