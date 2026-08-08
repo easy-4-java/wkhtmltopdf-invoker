@@ -18,7 +18,14 @@ package io.github.easy4j.wkhtmltopdf.invoker.request;
 import java.io.File;
 
 /**
+ * Default implementation of {@link WkhtmlToImageInvocationRequest} that holds
+ * all wkhtmltoimage-specific options as mutable fields. All setters return
+ * {@code this} to allow fluent method chaining.
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see WkhtmlToImageInvocationRequest
+ * @see AbstractInvocationRequest
  */
 public class DefaultWkhtmlToImageInvocationRequest extends AbstractInvocationRequest implements WkhtmlToImageInvocationRequest {
 

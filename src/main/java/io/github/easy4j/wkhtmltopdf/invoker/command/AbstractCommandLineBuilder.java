@@ -32,6 +32,19 @@ import io.github.easy4j.wkhtmltopdf.invoker.SystemOutLogger;
 import io.github.easy4j.wkhtmltopdf.invoker.exception.CommandLineConfigurationException;
 import io.github.easy4j.wkhtmltopdf.invoker.request.InvocationRequest;
 
+/**
+ * Abstract base class for building a Plexus {@link Commandline} that will be
+ * used to invoke a {@code wkhtmltopdf} or {@code wkhtmltoimage} native binary.
+ *
+ * <p>Subclasses must implement {@link #doCommandInternal(InvocationRequest, Commandline)}
+ * to append tool-specific arguments, and {@link #findWkhtmltopdfExecutable()} to
+ * locate the native executable on disk.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see WkhtmlToPdfCommandLineBuilder
+ * @see WkhtmlToImageCommandLineBuilder
+ */
 public abstract class AbstractCommandLineBuilder {
 	
 	private static final InvokerLogger DEFAULT_LOGGER = new SystemOutLogger();
@@ -52,6 +65,17 @@ public abstract class AbstractCommandLineBuilder {
 
 	protected Properties systemEnvVars;
 
+	/**
+	 * Builds a fully-configured {@link Commandline} from the given invocation
+	 * request. This method locates the executable, sets up the shell
+	 * environment, delegates argument assembly to the subclass, and appends
+	 * any system properties, goals and verbose flags.
+	 *
+	 * @param request the invocation request, must not be {@code null}.
+	 * @return the assembled command line, never {@code null}.
+	 * @throws CommandLineConfigurationException if the executable cannot be
+	 *         found or the environment cannot be read.
+	 */
 	public Commandline build(InvocationRequest request) throws CommandLineConfigurationException {
 		
 		try {
@@ -85,26 +109,74 @@ public abstract class AbstractCommandLineBuilder {
 		return cli;
 	}
 	
+	/**
+	 * Appends tool-specific arguments to the command line. Called by
+	 * {@link #build(InvocationRequest)} after the executable and environment
+	 * have been configured.
+	 *
+	 * @param request the invocation request, must not be {@code null}.
+	 * @param cli     the command line being assembled, must not be {@code null}.
+	 * @throws CommandLineConfigurationException if the request contains an
+	 *         invalid argument combination.
+	 */
 	protected abstract void doCommandInternal(InvocationRequest request,Commandline cli) throws CommandLineConfigurationException;
-	
+
+	/**
+	 * Locates the native wkhtmltopdf (or wkhtmltoimage) executable on disk.
+	 *
+	 * @return the executable file, never {@code null}.
+	 * @throws CommandLineConfigurationException if the executable cannot be found.
+	 * @throws IOException if an I/O error occurs while resolving the path.
+	 */
 	protected abstract File findWkhtmltopdfExecutable() throws CommandLineConfigurationException, IOException;
 
+	/**
+	 * Locates the Calibre home directory. Delegates to {@link #findWkhtmltopdfHome()}.
+	 *
+	 * @return the Calibre home directory, or {@code null} if not configured.
+	 * @throws CommandLineConfigurationException if the directory cannot be resolved.
+	 * @throws IOException if an I/O error occurs.
+	 */
 	protected File findCalibreHome() throws CommandLineConfigurationException, IOException {
 		return findWkhtmltopdfHome();
 	}
 
+	/**
+	 * Locates the Calibre executable. Returns {@code null} by default;
+	 * subclasses may override.
+	 *
+	 * @return the Calibre executable, or {@code null}.
+	 * @throws CommandLineConfigurationException if the executable cannot be found.
+	 * @throws IOException if an I/O error occurs.
+	 */
 	protected File findCalibreExecutable() throws CommandLineConfigurationException, IOException {
 		return null;
 	}
 
 	
 	
+	/**
+	 * Validates that the builder is in a state suitable for building a command
+	 * line. At minimum, a logger must be set.
+	 *
+	 * @throws IllegalStateException if a required field is missing.
+	 * @throws IOException if an I/O error occurs during validation.
+	 */
 	protected void checkRequiredState() throws IOException {
 		if (logger == null) {
 			throw new IllegalStateException("A logger instance is required.");
 		}
 	}
  
+	/**
+	 * Propagates shell environment variables to the command line, including
+	 * system environment variables (if inherited) and any custom variables
+	 * registered on the request.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to configure.
+	 * @throws CommandLineConfigurationException if the environment cannot be read.
+	 */
 	protected void setShellEnvironment(InvocationRequest request, Commandline cli)
 			throws CommandLineConfigurationException {
 		if (request.isShellEnvironmentInherited()) {
@@ -136,6 +208,12 @@ public abstract class AbstractCommandLineBuilder {
 		
 	}
 
+	/**
+	 * Appends the goals (positional arguments) from the request to the command line.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setGoals(InvocationRequest request, Commandline cli) {
 		List<String> goals = request.getGoals();
 		if ((goals != null) && !goals.isEmpty()) {
@@ -143,6 +221,13 @@ public abstract class AbstractCommandLineBuilder {
 		}
 	}
 
+	/**
+	 * Appends {@code -Dkey=value} system properties from the request to the
+	 * command line.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setProperties(InvocationRequest request, Commandline cli) {
 		Properties properties = request.getProperties();
 
@@ -159,6 +244,16 @@ public abstract class AbstractCommandLineBuilder {
 		}
 	}
 
+	/**
+	 * Locates the wkhtmltopdf home directory by checking (in order): the
+	 * field already set on this builder, the {@code wkhtmltopdf.home} system
+	 * property, and the {@code WKHTMLTOPDF_HOME} environment variable.
+	 *
+	 * @return the wkhtmltopdf home directory, or {@code null} if not found.
+	 * @throws CommandLineConfigurationException if the system property points
+	 *         to a non-directory path.
+	 * @throws IOException if the environment variables cannot be read.
+	 */
 	protected File findWkhtmltopdfHome() throws CommandLineConfigurationException, IOException {
 		if (wkhtmltopdfHome == null) {
 			String calibreHomeProperty = System.getProperty("wkhtmltopdf.home");
@@ -177,6 +272,13 @@ public abstract class AbstractCommandLineBuilder {
 		return wkhtmltopdfHome;
 	}
 	 
+	/**
+	 * Appends the {@code --verbose} flag to the command line when the request
+	 * has verbose mode enabled.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setVerbose(InvocationRequest request, Commandline cli) {
 		if(request.isVerbose()) {
 			cli.createArg().setValue("--verbose");
@@ -191,22 +293,47 @@ public abstract class AbstractCommandLineBuilder {
 		return this.systemEnvVars;
 	}
 
+	/**
+	 * Returns the logger used by this builder.
+	 *
+	 * @return the logger, never {@code null}.
+	 */
 	public InvokerLogger getLogger() {
 		return logger;
 	}
 
+	/**
+	 * Sets the logger used by this builder.
+	 *
+	 * @param logger the logger, must not be {@code null}.
+	 */
 	public void setLogger(InvokerLogger logger) {
 		this.logger = logger;
 	}
 
+	/**
+	 * Returns the wkhtmltopdf home directory configured on this builder.
+	 *
+	 * @return the home directory, or {@code null} if not set.
+	 */
 	public File getWkhtmltopdfHome() {
 		return wkhtmltopdfHome;
 	}
 
+	/**
+	 * Sets the wkhtmltopdf home directory.
+	 *
+	 * @param wkhtmltopdfHome the home directory, may be {@code null}.
+	 */
 	public void setWkhtmltopdfHome(File wkhtmltopdfHome) {
 		this.wkhtmltopdfHome = wkhtmltopdfHome;
 	}
 
+	/**
+	 * Returns the wkhtmltopdf executable file configured on this builder.
+	 *
+	 * @return the executable file, or {@code null} if not set.
+	 */
 	public File getWkhtmltopdfExecutable() {
 		return wkhtmltopdfExecutable;
 	}
@@ -219,10 +346,20 @@ public abstract class AbstractCommandLineBuilder {
 		this.wkhtmltopdfExecutable = wkhtmltopdfExecutable;
 	}
 
+	/**
+	 * Returns the working directory for the wkhtmltopdf process.
+	 *
+	 * @return the working directory, or {@code null} if not set.
+	 */
 	public File getWorkingDirectory() {
 		return workingDirectory;
 	}
 
+	/**
+	 * Sets the working directory for the wkhtmltopdf process.
+	 *
+	 * @param workingDirectory the working directory, may be {@code null}.
+	 */
 	public void setWorkingDirectory(File workingDirectory) {
 		this.workingDirectory = workingDirectory;
 	}

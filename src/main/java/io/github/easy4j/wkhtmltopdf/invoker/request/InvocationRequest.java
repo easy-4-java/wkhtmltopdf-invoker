@@ -24,7 +24,19 @@ import java.util.Properties;
 import io.github.easy4j.wkhtmltopdf.invoker.InvocationOutputHandler;
 
 /**
- * Specifies the parameters used to control a wkhtmltopdf invocation.
+ * Specifies the parameters used to control a {@code wkhtmltopdf} (or
+ * {@code wkhtmltoimage}) invocation.
+ *
+ * <p>This interface defines the common options shared by all wkhtmltopdf-family
+ * tools: output/error handlers, environment variables, system properties,
+ * collation, DPI, grayscale mode and more. Tool-specific sub-interfaces
+ * (e.g. {@link WkhtmlToPdfInvocationRequest},
+ * {@link WkhtmlToImageInvocationRequest}) add further options.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see WkhtmlToPdfInvocationRequest
+ * @see WkhtmlToImageInvocationRequest
  */
 public interface InvocationRequest {
 
@@ -38,6 +50,12 @@ public interface InvocationRequest {
 	 */
 	boolean isShellEnvironmentInherited();
 
+	/**
+	 * Indicates whether detailed output information should be shown. Useful
+	 * for debugging wkhtmltopdf invocations.
+	 *
+	 * @return {@code true} if verbose mode is enabled, {@code false} otherwise.
+	 */
 	boolean isVerbose();
 
 	/**
@@ -85,32 +103,47 @@ public interface InvocationRequest {
 	Map<String, String> getShellEnvironments();
 	
 	/**
-	 * Indicates whether Collate when printing multiple copies, Default true
+	 * Indicates whether to collate when printing multiple copies. Default
+	 * is {@code true}.
+	 *
+	 * @return {@code true} if collation is enabled, {@code false} otherwise.
 	 */
 	boolean isCollate();
 	
 	/**
-	 * Read and write cookies from and to the supplied cookie jar file;
+	 * Returns the cookie jar file used to read and write cookies during the
+	 * wkhtmltopdf invocation.
+	 *
+	 * @return the cookie jar file, or {@code null} if not set.
 	 */
 	File getCookieJar();
 	
 	/**
-	 * Number of copies to print into the pdf file (default 1)
+	 * Returns the number of copies to print into the PDF file.
+	 *
+	 * @return the number of copies, default is {@code 1}.
 	 */
 	int getCopies();
 	
 	/**
-	 * Get the dpi explicitly (this has no effect on X11 based systems) (default 96)
+	 * Returns the DPI setting for the PDF output. This has no effect on X11-based
+	 * systems.
+	 *
+	 * @return the DPI value, default is {@code 96}.
 	 */
 	int getDpi();
 	
 	/**
-	 * Indicates whether PDF will be generated in grayscale
+	 * Indicates whether the PDF will be generated in grayscale.
+	 *
+	 * @return {@code true} if grayscale mode is enabled, {@code false} otherwise.
 	 */
 	boolean isGrayscale();
 
 	/**
-	 * When embedding images scale them down to this dpi (default 600)
+	 * Returns the DPI to which embedded images are scaled down.
+	 *
+	 * @return the image DPI, default is {@code 600}.
 	 */
 	int getImageDpi();
 	
@@ -179,46 +212,62 @@ public interface InvocationRequest {
 	
 	
 	/**
-	 * Set the value of the {@code collate}; {@code true} if the
-	 * argument {@code --collate} was specified, otherwise
-	 * {@code false} the argument {@code --no-collate} was specified
+	 * Enables or disables collation when printing multiple copies.
+	 *
+	 * @param collate {@code true} to enable collation ({@code --collate}),
+	 *                {@code false} to disable it ({@code --no-collate}).
+	 * @return this invocation request.
 	 */
 	InvocationRequest setCollate(boolean collate);
 	
 	/**
-	 * Read and write cookies from and to the supplied cookie jar file;
-	 * Set the value of the {@code cookie-jar}; {@code true} if the
-	 * argument {@code --cookie-jar} was specified, otherwise {@code false} 
+	 * Sets the cookie jar file used to read and write cookies during the
+	 * invocation.
+	 *
+	 * @param cookieJar the cookie jar file, may be {@code null}.
+	 * @return this invocation request.
 	 */
 	InvocationRequest setCookieJar(File cookieJar);
 	
 	/**
-	 * Number of copies to print into the pdf file (default 1)
-	 * @param copies 
-	 * @return
+	 * Sets the number of copies to print into the PDF file.
+	 *
+	 * @param copies the number of copies, default is {@code 1}.
+	 * @return this invocation request.
 	 */
 	InvocationRequest setCopies(int copies);
 	
 	/**
-	 * Change the dpi explicitly (this has no effect on X11 based systems) (default 96)
-	 * @param dpi
-	 * @return
+	 * Sets the DPI explicitly. This has no effect on X11-based systems.
+	 *
+	 * @param dpi the DPI value, default is {@code 96}.
+	 * @return this invocation request.
 	 */
 	InvocationRequest setDpi(int dpi);
 	
 	/**
-	 * Set the value of the {@code grayscale}; {@code true} if the
-	 * argument {@code --grayscale} was specified, otherwise {@code false}  
+	 * Enables or disables grayscale mode for the generated PDF.
+	 *
+	 * @param grayscale {@code true} to generate a grayscale PDF
+	 *                  ({@code --grayscale}), {@code false} otherwise.
+	 * @return this invocation request.
 	 */
 	InvocationRequest setGrayscale(boolean grayscale);
 	
 	/**
-	 * Set the value of the {@code image-dpi}; {@code true} if the
-	 * argument {@code --image-dpi} was specified, otherwise {@code false}  
+	 * Sets the DPI to which embedded images are scaled down.
+	 *
+	 * @param dpi the image DPI, default is {@code 600}.
+	 * @return this invocation request.
 	 */
 	InvocationRequest setImageDpi(int dpi);
 	
-	
+	/**
+	 * Sets the output file for the generated PDF or image.
+	 *
+	 * @param outputFile the output file, may be {@code null}.
+	 * @return this invocation request.
+	 */
 	InvocationRequest setOutputFile(File outputFile);
 
 }
