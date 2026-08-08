@@ -27,14 +27,27 @@ import io.github.easy4j.wkhtmltopdf.invoker.request.WkhtmlToImageInvocationReque
 
 
 /**
- * Compile an LRS file into an LRF file.
+ * Command-line builder for the {@code wkhtmltoimage} native binary. Translates
+ * a {@link WkhtmlToImageInvocationRequest} into the arguments expected by the
+ * {@code wkhtmltoimage} CLI (e.g. {@code --lrs}, {@code -o}).
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see AbstractCommandLineBuilder
+ * @see WkhtmlToImageInvocationRequest
  */
 public class WkhtmlToImageCommandLineBuilder extends AbstractCommandLineBuilder {
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>Appends wkhtmltoimage-specific arguments: the {@code --lrs} flag,
+	 * the output directory ({@code -o}), and the LRS file path.</p>
+	 */
 	@Override
 	protected void doCommandInternal(InvocationRequest request, Commandline cli)
 			throws CommandLineConfigurationException {
-		
+
 		if(request instanceof WkhtmlToImageInvocationRequest) {
 
 			WkhtmlToImageInvocationRequest lrs2lrfRequest = ( WkhtmlToImageInvocationRequest) request;
@@ -48,6 +61,12 @@ public class WkhtmlToImageCommandLineBuilder extends AbstractCommandLineBuilder 
 		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>Locates the {@code lrs2lrf} executable within the Calibre home
+	 * directory.</p>
+	 */
 	@Override
 	protected File findCalibreExecutable() throws CommandLineConfigurationException, IOException {
 		
@@ -84,12 +103,25 @@ public class WkhtmlToImageCommandLineBuilder extends AbstractCommandLineBuilder 
 		return calibreExecutable;
 	}
 	
+	/**
+	 * Appends the {@code --lrs} flag when LRS mode is enabled.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setLrs(WkhtmlToImageInvocationRequest request, Commandline cli) {
 		if(request.isLrs()) {
 			cli.createArg().setValue("--lrs");
 		}
 	}
 
+	/**
+	 * Appends the {@code -o} (output directory) argument when an output
+	 * directory is specified.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setOutputDirectory(WkhtmlToImageInvocationRequest request, Commandline cli) {
 		
 		File outputDirectory = request.getOutputDirectory();
@@ -113,6 +145,11 @@ public class WkhtmlToImageCommandLineBuilder extends AbstractCommandLineBuilder 
 
 
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @return a {@link File} representing the {@code wkhtmltoimage} executable name.
+	 */
 	@Override
 	protected File findWkhtmltopdfExecutable() throws CommandLineConfigurationException, IOException {
 		return new File("wkhtmltoimage");

@@ -18,7 +18,14 @@ package io.github.easy4j.wkhtmltopdf.invoker.request;
 import java.io.File;
 
 /**
+ * Default implementation of {@link WkhtmlToPdfInvocationRequest} that holds all
+ * wkhtmltopdf-specific options as mutable fields. All setters return
+ * {@code this} to allow fluent method chaining.
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see WkhtmlToPdfInvocationRequest
+ * @see AbstractInvocationRequest
  */
 public class DefaultWkhtmlToPdfInvocationRequest extends AbstractInvocationRequest implements WkhtmlToPdfInvocationRequest {
 

@@ -17,12 +17,38 @@ package io.github.easy4j.wkhtmltopdf.invoker.request;
 
 import java.io.File;
 
+/**
+ * Extends {@link InvocationRequest} with options specific to the
+ * {@code wkhtmltoimage} tool, such as LRS mode, LRS file path and
+ * output directory.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see InvocationRequest
+ * @see DefaultWkhtmlToImageInvocationRequest
+ */
 public interface WkhtmlToImageInvocationRequest extends InvocationRequest {
 
+	/**
+	 * Indicates whether LRS-to-LRS conversion mode is enabled (useful for
+	 * debugging).
+	 *
+	 * @return {@code true} if LRS mode is enabled.
+	 */
 	public boolean isLrs();
 
+	/**
+	 * Returns the LRS file to process.
+	 *
+	 * @return the LRS file, or {@code null} if not set.
+	 */
 	public File getLrsFile();
-	
+
+	/**
+	 * Returns the output directory for the generated image.
+	 *
+	 * @return the output directory, or {@code null} if not set.
+	 */
 	public File getOutputDirectory();
 
 	/**

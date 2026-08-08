@@ -16,7 +16,16 @@
 package io.github.easy4j.wkhtmltopdf.invoker;
 
 /**
- * Offers an output handler that writes to {@link System#out}.
+ * Pre-configured {@link PrintStreamHandler} that writes captured output to
+ * {@link System#out}.
+ *
+ * <p>This is the default output handler used by {@link DefaultInvoker} when
+ * no custom handler has been registered.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see PrintStreamHandler
+ * @see DefaultInvoker
  */
 public class SystemOutHandler extends PrintStreamHandler {
 
