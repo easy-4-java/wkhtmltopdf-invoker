@@ -16,12 +16,23 @@
 package io.github.easy4j.wkhtmltopdf.invoker;
 
 /**
- * Offers a logger that writes to {@link System#out}.
+ * Pre-configured {@link PrintStreamLogger} that writes diagnostic messages to
+ * {@link System#out} at the {@link InvokerLogger#INFO} threshold.
+ *
+ * <p>Use this logger when no external logging framework is wired in and the
+ * caller is happy with raw stdout output. Otherwise prefer registering a custom
+ * {@link PrintStreamLogger} (or any other {@link InvokerLogger} implementation)
+ * via {@link io.github.easy4j.wkhtmltopdf.invoker.Invoker#setLogger(InvokerLogger)}.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see PrintStreamLogger
+ * @see InvokerLogger
  */
 public class SystemOutLogger extends PrintStreamLogger {
 
 	/**
-	 * Creates a new logger with a threshold of {@link #INFO}.
+	 * Creates a new logger with a threshold of {@link InvokerLogger#INFO}.
 	 */
 	public SystemOutLogger() {
 		super(System.out, INFO);

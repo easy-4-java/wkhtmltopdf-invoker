@@ -18,12 +18,19 @@ package io.github.easy4j.wkhtmltopdf.invoker.exception;
 import io.github.easy4j.wkhtmltopdf.invoker.InvocationResult;
 
 /**
- * Signals an error during the construction of the command line used to invoke
- * wkhtmltopdf, e.g. illegal invocation arguments. This should not be confused
- * with a failure of the invoked wkhtmltopdf build itself which will be reported
- * by means of a non-zero exit code.
- * 
+ * Signals a build-time error while setting up the command line used to invoke
+ * the wkhtmltopdf (or wkhtmltoimage) native binary, for example an illegal
+ * combination of invocation arguments.
+ *
+ * <p>This exception describes a failure of the <em>invoker</em> itself and
+ * should not be confused with a failure of the <em>invoked</em> wkhtmltopdf
+ * process, which is reported through the non-zero exit code returned by
+ * {@link InvocationResult#getExitCode()}.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
  * @see InvocationResult#getExitCode()
+ * @see CommandLineConfigurationException
  */
 public class WkhtmlToPdfInvocationException extends Exception {
 
@@ -31,11 +38,11 @@ public class WkhtmlToPdfInvocationException extends Exception {
 
 	/**
 	 * Creates a new exception using the specified detail message and cause.
-	 * 
+	 *
 	 * @param message
-	 *            The detail message for this exception, may be <code>null</code>.
+	 *            The detail message for this exception, may be {@code null}.
 	 * @param cause
-	 *            The nested exception, may be <code>null</code>.
+	 *            The nested exception, may be {@code null}.
 	 */
 	public WkhtmlToPdfInvocationException(String message, Throwable cause) {
 		super(message, cause);
@@ -43,9 +50,9 @@ public class WkhtmlToPdfInvocationException extends Exception {
 
 	/**
 	 * Creates a new exception using the specified detail message.
-	 * 
+	 *
 	 * @param message
-	 *            The detail message for this exception, may be <code>null</code>.
+	 *            The detail message for this exception, may be {@code null}.
 	 */
 	public WkhtmlToPdfInvocationException(String message) {
 		super(message);

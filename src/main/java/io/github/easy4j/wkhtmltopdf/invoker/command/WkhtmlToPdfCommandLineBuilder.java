@@ -28,13 +28,29 @@ import io.github.easy4j.wkhtmltopdf.invoker.request.WkhtmlToPdfInvocationRequest
 
 
 /**
+ * Command-line builder for the {@code wkhtmltopdf} native binary. Translates
+ * a {@link WkhtmlToPdfInvocationRequest} into the arguments expected by the
+ * {@code wkhtmltopdf} CLI (e.g. {@code --delay}, {@code --encoding},
+ * {@code --max-files}, etc.).
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see AbstractCommandLineBuilder
+ * @see WkhtmlToPdfInvocationRequest
  */
 public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>Appends wkhtmltopdf-specific arguments such as base directory, delay,
+	 * encoding, filter/match regexp, max files, max recursions, timeout and the
+	 * target URL.</p>
+	 */
 	@Override
 	protected void doCommandInternal(InvocationRequest request, Commandline cli)
 			throws CommandLineConfigurationException {
-		
+
 		if(request instanceof WkhtmlToPdfInvocationRequest) {
 
 			WkhtmlToPdfInvocationRequest web2diskRequest = ( WkhtmlToPdfInvocationRequest) request;
@@ -55,6 +71,12 @@ public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
 		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>Locates the {@code web2disk} executable within the Calibre home
+	 * directory.</p>
+	 */
 	@Override
 	protected File findCalibreExecutable() throws CommandLineConfigurationException, IOException {
 		
@@ -92,6 +114,12 @@ public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
 	}
 	
 
+	/**
+	 * Appends the {@code -d} (base directory) argument to the command line.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setBaseDirectory(WkhtmlToPdfInvocationRequest request, Commandline cli) {
 		
 		File baseDirectory = request.getBaseDirectory();
@@ -110,18 +138,36 @@ public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
  
 	}
 
+	/**
+	 * Appends the {@code --delay} argument to the command line.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setDelay(WkhtmlToPdfInvocationRequest request, Commandline cli) {
 		int delay = request.getDelay();
 		cli.createArg().setValue("--delay");
 		cli.createArg().setValue(String.valueOf(delay));
 	}
  
+	/**
+	 * Appends the {@code --dont-download-stylesheets} flag when enabled.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setDontDownloadStylesheets(WkhtmlToPdfInvocationRequest request, Commandline cli) {
 		if(request.isDontDownloadStylesheets()) {
 			cli.createArg().setValue("--dont-download-stylesheets");
 		}
 	}
 	
+	/**
+	 * Appends the {@code --encoding} argument when a non-empty encoding is set.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setEncoding(WkhtmlToPdfInvocationRequest request, Commandline cli) {
 		if(StringUtils.isNotEmpty(request.getEncoding())) {
 			cli.createArg().setValue("--encoding");
@@ -129,6 +175,12 @@ public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
 		}
 	}
 	
+	/**
+	 * Appends the {@code --filter-regexp} argument when a non-empty regexp is set.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setFilterRegexp(WkhtmlToPdfInvocationRequest request, Commandline cli) {
 		if(StringUtils.isNotEmpty(request.getFilterRegexp())) {
 			cli.createArg().setValue("--filter-regexp");
@@ -136,6 +188,12 @@ public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
 		}
 	}
 	
+	/**
+	 * Appends the {@code --match-regexp} argument when a non-empty regexp is set.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setMatchRegexp(WkhtmlToPdfInvocationRequest request, Commandline cli) {
 		if(StringUtils.isNotEmpty(request.getMatchRegexp())) {
 			cli.createArg().setValue("--match-regexp");
@@ -143,6 +201,12 @@ public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
 		}
 	}
    
+	/**
+	 * Appends the {@code -n} (max files) argument when the value is positive.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setMaxFiles(WkhtmlToPdfInvocationRequest request, Commandline cli) {
 		long maxFiles = request.getMaxFiles();
 		if (maxFiles > 0) {
@@ -151,6 +215,12 @@ public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
 		}
 	}
 
+	/**
+	 * Appends the {@code -r} (max recursions) argument when the value is positive.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setMaxRecursions(WkhtmlToPdfInvocationRequest request, Commandline cli) {
 		long maxRecursions = request.getMaxRecursions();
 		if (maxRecursions > 0) {
@@ -159,6 +229,12 @@ public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
 		}
 	}
 	
+	/**
+	 * Appends the {@code -t} (timeout) argument when the value is positive.
+	 *
+	 * @param request the invocation request.
+	 * @param cli     the command line to append to.
+	 */
 	protected void setTimeout(WkhtmlToPdfInvocationRequest request, Commandline cli) {
 		long timeout = request.getTimeout();
 		if (timeout > 0) {
@@ -169,6 +245,11 @@ public class WkhtmlToPdfCommandLineBuilder extends AbstractCommandLineBuilder {
 
 
 
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @return a {@link File} representing the {@code wkhtmltopdf} executable name.
+	 */
 	@Override
 	protected File findWkhtmltopdfExecutable() throws CommandLineConfigurationException, IOException {
 		return new File("wkhtmltopdf");

@@ -19,9 +19,17 @@ package io.github.easy4j.wkhtmltopdf.invoker;
 import org.codehaus.plexus.util.cli.CommandLineException;
 
 /**
- * Describes the result of a Calibre invocation.
- * 
- * @version $Id: DefaultInvocationResult.java 1401842 2012-10-24 19:49:47Z rfscholte $
+ * Default implementation of {@link InvocationResult} that records the exit code
+ * and any {@link CommandLineException} raised during a {@code wkhtmltopdf} (or
+ * {@code wkhtmltoimage}) invocation.
+ *
+ * <p>Instances are created internally by {@link DefaultInvoker} and returned to
+ * the caller after the forked process has completed (or failed to start).</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see InvocationResult
+ * @see DefaultInvoker#execute(io.github.easy4j.wkhtmltopdf.invoker.request.InvocationRequest)
  */
 public final class DefaultInvocationResult
     implements InvocationResult
@@ -39,18 +47,31 @@ public final class DefaultInvocationResult
     private int exitCode = Integer.MIN_VALUE;
 
     /**
-     * Creates a new invocation result
+     * Creates a new invocation result with default values. Package-private by
+     * design; instances are produced exclusively by {@link DefaultInvoker}.
      */
     DefaultInvocationResult()
     {
         // hide constructor
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return the exit code from the wkhtmltopdf invocation; defaults to
+     *         {@link Integer#MIN_VALUE} when the executable was never started.
+     */
     public int getExitCode()
     {
         return exitCode;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return the {@link CommandLineException} raised while preparing or starting
+     *         the native process, or {@code null} when the process actually ran.
+     */
     public CommandLineException getExecutionException()
     {
         return executionException;
