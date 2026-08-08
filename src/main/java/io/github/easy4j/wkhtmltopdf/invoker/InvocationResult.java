@@ -19,24 +19,44 @@ package io.github.easy4j.wkhtmltopdf.invoker;
 import org.codehaus.plexus.util.cli.CommandLineException;
 
 /**
- * Describes the result of a Calibre invocation.
+ * Describes the result of a {@code wkhtmltopdf} (or {@code wkhtmltoimage}) invocation.
+ *
+ * <p>An {@code InvocationResult} exposes the two pieces of information any caller
+ * needs to evaluate a completed invocation: the process exit code returned by the
+ * native binary, and the {@link CommandLineException} (if any) that prevented the
+ * invoker from running the binary in the first place.</p>
+ *
+ * <p>Because the invoker never wraps a successful forked invocation in an
+ * exception, callers should treat {@link #getExecutionException()} as the
+ * authoritative "did the invoker manage to start the process?" signal.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see io.github.easy4j.wkhtmltopdf.invoker.Invoker#execute(InvocationRequest)
  */
 public interface InvocationResult
 {
 
     /**
-     * Gets the exception that possibly occurred during the execution of the command line.
-     * 
-     * @return The exception that prevented to invoke Calibre or <code>null</code> if the command line was successfully
-     *         processed by the operating system.
+     * Returns the exception that prevented the invoker from executing the command
+     * line, or {@code null} if the command line was successfully handed to the
+     * operating system.
+     *
+     * @return the {@link CommandLineException} raised while preparing or starting
+     *         the native process, or {@code null} when the process actually ran.
      */
     CommandLineException getExecutionException();
 
     /**
-     * Gets the exit code from the Calibre invocation. A non-zero value indicates a build failure. <strong>Note:</strong>
-     * This value is undefined if {@link #getExecutionException()} reports an exception.
-     * 
-     * @return The exit code from the Calibre invocation.
+     * Returns the exit code reported by the {@code wkhtmltopdf} invocation. A
+     * non-zero value indicates a build failure.
+     *
+     * <p><strong>Note:</strong> this value is undefined when
+     * {@link #getExecutionException()} returns a non-{@code null} exception, since
+     * in that case no native process ever completed.</p>
+     *
+     * @return the exit code from the wkhtmltopdf invocation; defaults to
+     *         {@link Integer#MIN_VALUE} when the executable was never started.
      */
     int getExitCode();
 
