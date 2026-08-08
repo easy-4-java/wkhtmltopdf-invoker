@@ -18,12 +18,24 @@ package io.github.easy4j.wkhtmltopdf.invoker;
 import java.io.PrintStream;
 
 /**
- * Offers an output handler that writes to a print stream like {@link System#out}.
+ * Default {@link InvocationOutputHandler} that re-emits every captured line on
+ * a caller-supplied {@link PrintStream} (typically {@link System#out}).
+ *
+ * <p>The handler flushes the wrapped stream on demand when {@code alwaysFlush} is
+ * {@code true}, which is convenient for long-running invocations where the
+ * caller wants to see partial output before the process has terminated. When
+ * set to {@code false} (the default for the no-argument constructor) the JVM
+ * is free to buffer output and only flush on process termination.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SystemOutHandler
+ * @see InvocationOutputHandler
  */
 public class PrintStreamHandler implements InvocationOutputHandler {
 
 	/**
-	 * The print stream to write to, never <code>null</code>.
+	 * The print stream to write to, never {@code null}.
 	 */
 	private PrintStream out;
 
@@ -33,7 +45,8 @@ public class PrintStreamHandler implements InvocationOutputHandler {
 	private boolean alwaysFlush;
 
 	/**
-	 * Creates a new output handler that writes to {@link System#out}.
+	 * Creates a new output handler that writes to {@link System#out} without
+	 * forcing a flush after every consumed line.
 	 */
 	public PrintStreamHandler() {
 		this(System.out, false);
@@ -41,8 +54,11 @@ public class PrintStreamHandler implements InvocationOutputHandler {
 
 	/**
 	 * Creates a new output handler that writes to the specified print stream.
-	 * @param out The print stream to write to, must not be <code>null</code>.
-	 * @param alwaysFlush A flag whether the print stream should be flushed after each line.
+	 *
+	 * @param out          the print stream to write to, must not be {@code null}.
+	 * @param alwaysFlush  whether the print stream should be flushed after each
+	 *                     consumed line.
+	 * @throws NullPointerException if {@code out} is {@code null}.
 	 */
 	public PrintStreamHandler(PrintStream out, boolean alwaysFlush) {
 		if (out == null) {
@@ -52,6 +68,15 @@ public class PrintStreamHandler implements InvocationOutputHandler {
 		this.alwaysFlush = alwaysFlush;
 	}
 
+	/**
+	 * Writes {@code line} to the wrapped print stream, terminated with a line
+	 * separator. A {@code null} {@code line} produces a single empty line. If
+	 * this handler was constructed with {@code alwaysFlush == true} the stream
+	 * is flushed immediately.
+	 *
+	 * @param line the line of text to consume, may be {@code null}.
+	 */
+	@Override
 	public void consumeLine(String line) {
 		if (line == null) {
 			out.println();

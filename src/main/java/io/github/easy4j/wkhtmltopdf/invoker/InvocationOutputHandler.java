@@ -18,7 +18,18 @@ package io.github.easy4j.wkhtmltopdf.invoker;
 import org.codehaus.plexus.util.cli.StreamConsumer;
 
 /**
- * Receives the standard/error output from a Calibre invocation.
+ * Receives lines of standard output or standard error produced by a
+ * {@code wkhtmltopdf} (or {@code wkhtmltoimage}) invocation.
+ *
+ * <p>This interface extends Plexus {@link StreamConsumer} so that it can be
+ * plugged directly into {@link org.codehaus.plexus.util.cli.CommandLineUtils}.
+ * Implementations should be thread-safe because the forked process may write
+ * to stdout and stderr concurrently.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see PrintStreamHandler
+ * @see SystemOutHandler
  */
 public interface InvocationOutputHandler extends StreamConsumer {
 	// empty by design

@@ -16,8 +16,19 @@
 package io.github.easy4j.wkhtmltopdf.invoker;
 
 /**
- * A logger used by {@link Invoker} instances to output diagnostic messages.
+ * A threshold-aware logger used by {@link Invoker} instances to output
+ * diagnostic messages during wkhtmltopdf invocations.
+ *
+ * <p>Implementations are expected to silently discard messages whose priority
+ * is below the configured threshold. Five severity levels are provided:
+ * {@link #FATAL}, {@link #ERROR}, {@link #WARN}, {@link #INFO} and
+ * {@link #DEBUG} (ordered from lowest to highest numeric value).</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
  * @see Invoker#setLogger(InvokerLogger)
+ * @see PrintStreamLogger
+ * @see SystemOutLogger
  */
 public interface InvokerLogger {
 

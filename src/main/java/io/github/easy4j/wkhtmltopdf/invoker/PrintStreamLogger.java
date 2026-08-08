@@ -20,15 +20,27 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * Offers a logger that writes to a print stream like {@link System#out}.
- * 
- * @version $Id: PrintStreamLogger.java 1635406 2014-10-30 06:51:13Z hboutemy $
+ * Threshold-aware {@link InvokerLogger} that writes diagnostic messages to a
+ * caller-supplied {@link PrintStream}, defaulting to {@link System#out}.
+ *
+ * <p>Each log call is prefixed with a severity tag such as {@code [INFO]} or
+ * {@code [ERROR]}, and any accompanying {@link Throwable} is appended as a
+ * formatted stack trace. Calls made for a level above the configured threshold
+ * are silently discarded, allowing callers to mute noisy output without the
+ * logger having to be re-instantiated.</p>
+ *
+ * <p>The class is intentionally simple so it can serve as a fallback when no
+ * external logging framework (such as SLF4J) is available on the classpath.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
  * @since 2.0.9
+ * @see InvokerLogger
+ * @see SystemOutLogger
  */
 public class PrintStreamLogger implements InvokerLogger {
 
 	/**
-	 * The print stream to write to, never <code>null</code>.
+	 * The print stream to write to, never {@code null}.
 	 */
 	private PrintStream out;
 
@@ -38,8 +50,8 @@ public class PrintStreamLogger implements InvokerLogger {
 	private int threshold;
 
 	/**
-	 * Creates a new logger that writes to {@link System#out} and has a threshold of
-	 * {@link #INFO}.
+	 * Creates a new logger that writes to {@link System#out} and has a threshold
+	 * of {@link #INFO}.
 	 */
 	public PrintStreamLogger() {
 		this(System.out, INFO);
@@ -47,11 +59,14 @@ public class PrintStreamLogger implements InvokerLogger {
 
 	/**
 	 * Creates a new logger that writes to the specified print stream.
-	 * 
+	 *
 	 * @param out
-	 *            The print stream to write to, must not be <code>null</code>.
+	 *            the print stream to write to, must not be {@code null}.
 	 * @param threshold
-	 *            The threshold for the logger.
+	 *            the threshold for the logger, must be one of
+	 *            {@link #DEBUG}, {@link #INFO}, {@link #WARN},
+	 *            {@link #ERROR} or {@link #FATAL}.
+	 * @throws NullPointerException if {@code out} is {@code null}.
 	 */
 	public PrintStreamLogger(PrintStream out, int threshold) {
 		if (out == null) {
@@ -62,14 +77,12 @@ public class PrintStreamLogger implements InvokerLogger {
 	}
 
 	/**
-	 * Writes the specified message and exception to the print stream.
-	 * 
-	 * @param level
-	 *            The priority level of the message.
-	 * @param message
-	 *            The message to log, may be <code>null</code>.
-	 * @param error
-	 *            The exception to log, may be <code>null</code>.
+	 * Writes the specified message and exception to the underlying print stream
+	 * if {@code level} is not above the configured threshold.
+	 *
+	 * @param level    the priority level of the message.
+	 * @param message  the message to log, may be {@code null}.
+	 * @param error    the exception to log, may be {@code null}.
 	 */
 	private void log(int level, String message, Throwable error) {
 		if (level > threshold) {
@@ -131,70 +144,178 @@ public class PrintStreamLogger implements InvokerLogger {
 		out.println(buffer.toString());
 	}
 
+	/**
+	 * Logs the specified message at {@link #DEBUG} level.
+	 *
+	 * @param message the message to log, may be {@code null}.
+	 */
+	@Override
 	public void debug(String message) {
 		log(DEBUG, message, null);
 	}
 
+	/**
+	 * Logs the specified message and accompanying exception at {@link #DEBUG}
+	 * level.
+	 *
+	 * @param message   the message to log, may be {@code null}.
+	 * @param throwable the exception to log, may be {@code null}.
+	 */
+	@Override
 	public void debug(String message, Throwable throwable) {
 		log(DEBUG, message, throwable);
 	}
 
+	/**
+	 * Logs the specified message at {@link #INFO} level.
+	 *
+	 * @param message the message to log, may be {@code null}.
+	 */
+	@Override
 	public void info(String message) {
 		log(INFO, message, null);
 	}
 
+	/**
+	 * Logs the specified message and accompanying exception at {@link #INFO}
+	 * level.
+	 *
+	 * @param message   the message to log, may be {@code null}.
+	 * @param throwable the exception to log, may be {@code null}.
+	 */
+	@Override
 	public void info(String message, Throwable throwable) {
 		log(INFO, message, throwable);
 	}
 
+	/**
+	 * Logs the specified message at {@link #WARN} level.
+	 *
+	 * @param message the message to log, may be {@code null}.
+	 */
+	@Override
 	public void warn(String message) {
 		log(WARN, message, null);
 	}
 
+	/**
+	 * Logs the specified message and accompanying exception at {@link #WARN}
+	 * level.
+	 *
+	 * @param message   the message to log, may be {@code null}.
+	 * @param throwable the exception to log, may be {@code null}.
+	 */
+	@Override
 	public void warn(String message, Throwable throwable) {
 		log(WARN, message, throwable);
 	}
 
+	/**
+	 * Logs the specified message at {@link #ERROR} level.
+	 *
+	 * @param message the message to log, may be {@code null}.
+	 */
+	@Override
 	public void error(String message) {
 		log(ERROR, message, null);
 	}
 
+	/**
+	 * Logs the specified message and accompanying exception at {@link #ERROR}
+	 * level.
+	 *
+	 * @param message   the message to log, may be {@code null}.
+	 * @param throwable the exception to log, may be {@code null}.
+	 */
+	@Override
 	public void error(String message, Throwable throwable) {
 		log(ERROR, message, throwable);
 	}
 
+	/**
+	 * Logs the specified message at {@link #FATAL} level.
+	 *
+	 * @param message the message to log, may be {@code null}.
+	 */
+	@Override
 	public void fatalError(String message) {
 		log(FATAL, message, null);
 	}
 
+	/**
+	 * Logs the specified message and accompanying exception at {@link #FATAL}
+	 * level.
+	 *
+	 * @param message   the message to log, may be {@code null}.
+	 * @param throwable the exception to log, may be {@code null}.
+	 */
+	@Override
 	public void fatalError(String message, Throwable throwable) {
 		log(FATAL, message, throwable);
 	}
 
+	/**
+	 * @return {@code true} when messages with priority {@link #DEBUG} or higher
+	 *         are emitted.
+	 */
+	@Override
 	public boolean isDebugEnabled() {
 		return threshold >= DEBUG;
 	}
 
+	/**
+	 * @return {@code true} when messages with priority {@link #ERROR} or higher
+	 *         are emitted.
+	 */
+	@Override
 	public boolean isErrorEnabled() {
 		return threshold >= ERROR;
 	}
 
+	/**
+	 * @return {@code true} when messages with priority {@link #FATAL} or higher
+	 *         are emitted.
+	 */
+	@Override
 	public boolean isFatalErrorEnabled() {
 		return threshold >= FATAL;
 	}
 
+	/**
+	 * @return {@code true} when messages with priority {@link #INFO} or higher
+	 *         are emitted.
+	 */
+	@Override
 	public boolean isInfoEnabled() {
 		return threshold >= INFO;
 	}
 
+	/**
+	 * @return {@code true} when messages with priority {@link #WARN} or higher
+	 *         are emitted.
+	 */
+	@Override
 	public boolean isWarnEnabled() {
 		return threshold >= WARN;
 	}
 
+	/**
+	 * @return the current threshold, one of {@link #DEBUG}, {@link #INFO},
+	 *         {@link #WARN}, {@link #ERROR} or {@link #FATAL}.
+	 */
+	@Override
 	public int getThreshold() {
 		return threshold;
 	}
 
+	/**
+	 * Updates the threshold used to filter log messages.
+	 *
+	 * @param threshold the new threshold, must be one of {@link #DEBUG},
+	 *                  {@link #INFO}, {@link #WARN}, {@link #ERROR} or
+	 *                  {@link #FATAL}.
+	 */
+	@Override
 	public void setThreshold(int threshold) {
 		this.threshold = threshold;
 	}
