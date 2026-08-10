@@ -27,7 +27,7 @@ import java.io.PrintStream;
  * set to {@code false} (the default for the no-argument constructor) the JVM
  * is free to buffer output and only flush on process termination.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SystemOutHandler
  * @see InvocationOutputHandler

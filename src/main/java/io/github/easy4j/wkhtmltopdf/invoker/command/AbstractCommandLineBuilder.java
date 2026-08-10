@@ -40,7 +40,7 @@ import io.github.easy4j.wkhtmltopdf.invoker.request.InvocationRequest;
  * to append tool-specific arguments, and {@link #findWkhtmltopdfExecutable()} to
  * locate the native executable on disk.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see WkhtmlToPdfCommandLineBuilder
  * @see WkhtmlToImageCommandLineBuilder

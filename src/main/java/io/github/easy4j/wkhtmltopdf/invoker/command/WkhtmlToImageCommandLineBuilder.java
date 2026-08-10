@@ -31,7 +31,7 @@ import io.github.easy4j.wkhtmltopdf.invoker.request.WkhtmlToImageInvocationReque
  * a {@link WkhtmlToImageInvocationRequest} into the arguments expected by the
  * {@code wkhtmltoimage} CLI (e.g. {@code --lrs}, {@code -o}).
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractCommandLineBuilder
  * @see WkhtmlToImageInvocationRequest

@@ -22,7 +22,7 @@ package io.github.easy4j.wkhtmltopdf.invoker;
  * <p>This is the default output handler used by {@link DefaultInvoker} when
  * no custom handler has been registered.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see PrintStreamHandler
  * @see DefaultInvoker

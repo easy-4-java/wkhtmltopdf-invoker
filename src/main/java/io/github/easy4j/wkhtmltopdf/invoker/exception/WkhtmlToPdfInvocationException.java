@@ -27,7 +27,7 @@ import io.github.easy4j.wkhtmltopdf.invoker.InvocationResult;
  * process, which is reported through the non-zero exit code returned by
  * {@link InvocationResult#getExitCode()}.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see InvocationResult#getExitCode()
  * @see CommandLineConfigurationException

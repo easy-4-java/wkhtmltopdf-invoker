@@ -26,7 +26,7 @@ import org.codehaus.plexus.util.cli.CommandLineException;
  * <p>Instances are created internally by {@link DefaultInvoker} and returned to
  * the caller after the forked process has completed (or failed to start).</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see InvocationResult
  * @see DefaultInvoker#execute(io.github.easy4j.wkhtmltopdf.invoker.request.InvocationRequest)

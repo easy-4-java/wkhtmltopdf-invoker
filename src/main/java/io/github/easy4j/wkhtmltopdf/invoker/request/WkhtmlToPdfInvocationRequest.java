@@ -23,7 +23,7 @@ import java.io.File;
  * encoding, filter/match regular expressions, maximum files, maximum
  * recursion depth, timeout and the target URL.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see InvocationRequest
  * @see DefaultWkhtmlToPdfInvocationRequest

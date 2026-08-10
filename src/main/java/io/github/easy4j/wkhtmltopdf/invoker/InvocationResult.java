@@ -30,7 +30,7 @@ import org.codehaus.plexus.util.cli.CommandLineException;
  * exception, callers should treat {@link #getExecutionException()} as the
  * authoritative "did the invoker manage to start the process?" signal.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see io.github.easy4j.wkhtmltopdf.invoker.Invoker#execute(InvocationRequest)
  */

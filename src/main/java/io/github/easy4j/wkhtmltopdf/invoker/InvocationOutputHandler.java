@@ -26,7 +26,7 @@ import org.codehaus.plexus.util.cli.StreamConsumer;
  * Implementations should be thread-safe because the forked process may write
  * to stdout and stderr concurrently.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see PrintStreamHandler
  * @see SystemOutHandler

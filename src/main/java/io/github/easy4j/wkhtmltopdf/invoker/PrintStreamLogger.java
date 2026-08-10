@@ -32,7 +32,7 @@ import java.io.StringWriter;
  * <p>The class is intentionally simple so it can serve as a fallback when no
  * external logging framework (such as SLF4J) is available on the classpath.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 2.0.9
  * @see InvokerLogger
  * @see SystemOutLogger

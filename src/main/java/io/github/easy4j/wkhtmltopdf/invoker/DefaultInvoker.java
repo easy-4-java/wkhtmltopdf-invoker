@@ -48,7 +48,7 @@ import io.github.easy4j.wkhtmltopdf.invoker.request.WkhtmlToPdfInvocationRequest
  *   if (result.getExitCode() != 0) { ... }
  * }</pre>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see Invoker
  * @see WkhtmlToPdfCommandLineBuilder

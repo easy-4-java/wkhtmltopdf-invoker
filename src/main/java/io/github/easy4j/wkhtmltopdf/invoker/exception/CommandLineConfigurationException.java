@@ -26,7 +26,7 @@ package io.github.easy4j.wkhtmltopdf.invoker.exception;
  * returned by the forked wkhtmltopdf process should be reported through
  * {@link InvocationResult#getExitCode()} instead of through this exception.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see InvocationResult
  * @see io.github.easy4j.wkhtmltopdf.invoker.command.AbstractCommandLineBuilder

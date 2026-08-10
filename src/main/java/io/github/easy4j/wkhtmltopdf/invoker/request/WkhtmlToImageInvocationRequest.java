@@ -22,7 +22,7 @@ import java.io.File;
  * {@code wkhtmltoimage} tool, such as LRS mode, LRS file path and
  * output directory.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see InvocationRequest
  * @see DefaultWkhtmlToImageInvocationRequest
