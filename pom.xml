@@ -350,14 +350,16 @@
                 <jdk>[1.8,)</jdk>
             </activation>
             <properties>
-                <central-maven-publishing-plugin.version>0.11.0</central-maven-publishing-plugin.version>
-                <lombok.version>1.18.46</lombok.version>
-                <maven.test.skip>true</maven.test.skip>
-                <additionalparam>-Xdoclint:none</additionalparam>
-                <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
-            
-        <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
-		<jsoup.version>1.22.2</jsoup.version></properties>
+                    <!-- Dependency versions -->
+                    <additionalparam>-Xdoclint:none</additionalparam>
+                    <central-maven-publishing-plugin.version>0.11.0</central-maven-publishing-plugin.version>
+                    <jsoup.version>1.22.2</jsoup.version>
+                    <lombok.version>1.18.46</lombok.version>
+                    <maven.test.skip>true</maven.test.skip>
+                    <!-- Maven Plugin versions -->
+                    <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
+                    <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
+            </properties>
         </profile>
         <!-- 发布到 Maven Central Portal：mvn -Prelease deploy（GPG 签名 + 源码 + Javadoc + Central 发布插件） -->
 
@@ -495,37 +497,38 @@
 
     <!-- 版本属性定义：Java 版本、依赖版本与 Maven 插件版本统一管理 -->
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <commons-io.version>2.22.0</commons-io.version>
-        <fastjson.version>2.0.62</fastjson.version>
-        <java.version>17</java.version>
-        <junit.version>4.13.2</junit.version>
-        <junit-jupiter.version>6.1.0</junit-jupiter.version>
-        <slf4j.version>2.0.18</slf4j.version>
-        <plexus-annotations.version>1.7.1</plexus-annotations.version>
-        <plexus-classworlds.version>2.5.2</plexus-classworlds.version>
-        <plexus-digest.version>1.1</plexus-digest.version>
-        <plexus-utils.version>3.1.0</plexus-utils.version>
-        <maven.version>3.0</maven.version>
-        <!-- Maven Plugin versions -->
-        <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
-        <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
-        <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
-        <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-        <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
-        <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
-        <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
-        <maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
-        <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
-        <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
-        <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
-        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
-        <maven-nexus-staging-plugin.version>1.7.0</maven-nexus-staging-plugin.version>
-        <metrics.version>3.2.2</metrics.version>
-        <commons-text.version>1.15.0</commons-text.version>
-        <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
+            <java.version>17</java.version>
+            <maven.version>3.0</maven.version>
+            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            <!-- Dependency versions -->
+            <commons-io.version>2.22.0</commons-io.version>
+            <commons-text.version>1.15.0</commons-text.version>
+            <fastjson.version>2.0.62</fastjson.version>
+            <junit-jupiter.version>6.1.0</junit-jupiter.version>
+            <junit.version>4.13.2</junit.version>
+            <metrics.version>3.2.2</metrics.version>
+            <plexus-annotations.version>1.7.1</plexus-annotations.version>
+            <plexus-classworlds.version>2.5.2</plexus-classworlds.version>
+            <plexus-digest.version>1.1</plexus-digest.version>
+            <plexus-utils.version>3.1.0</plexus-utils.version>
+            <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+            <slf4j.version>2.0.18</slf4j.version>
+            <!-- Maven Plugin versions -->
+            <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
+            <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
+            <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+            <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
+            <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
+            <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
+            <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+            <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
+            <maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
+            <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+            <maven-nexus-staging-plugin.version>1.7.0</maven-nexus-staging-plugin.version>
+            <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
+            <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
+            <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
+            <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
     </properties>
 
     <!-- 依赖版本统一管理（dependencyManagement） -->
