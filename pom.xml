@@ -524,6 +524,8 @@
             <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
             <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
             <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+        <jsoup.version>1.22.2</jsoup.version>
+        <lombok.version>1.18.46</lombok.version>
     </properties>
 
     
