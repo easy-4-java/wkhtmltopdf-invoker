@@ -227,8 +227,8 @@
                                     </requireMavenVersion>
                                     <requireJavaVersion>
                                         <message>
-                                                                                        You are running an older version of Java. This application requires at least JDK ${java.version}.
-                                                                                </message>
+                                                                                                                                                                                You are running an older version of Java. This application requires at least JDK ${java.version}.
+                                                                                                                                                                </message>
                                         <version>[${java.version}.0,)</version>
                                     </requireJavaVersion>
                                 </rules>
