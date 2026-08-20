@@ -70,8 +70,8 @@
         <maven.version>3.9.16</maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Dependency versions -->
-        <commons-io.version>2.22.0</commons-io.version>
-        <commons-text.version>1.15.0</commons-text.version>
+        <commons-io.version>2.20.0</commons-io.version>
+        <commons-text.version>1.13.0</commons-text.version>
         <fastjson.version>2.0.62</fastjson.version>
         <junit-jupiter.version>6.1.0</junit-jupiter.version>
         <junit.version>4.13.2</junit.version>
