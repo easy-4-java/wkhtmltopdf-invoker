@@ -353,7 +353,7 @@
                     <!-- Dependency versions -->
                     <additionalparam>-Xdoclint:none</additionalparam>
                     <central-maven-publishing-plugin.version>0.11.0</central-maven-publishing-plugin.version>
-                    <jsoup.version>1.22.2</jsoup.version>
+                    <jsoup.version>1.23.2</jsoup.version>
                     <lombok.version>1.18.46</lombok.version>
                     <maven.test.skip>true</maven.test.skip>
                     <!-- Maven Plugin versions -->
