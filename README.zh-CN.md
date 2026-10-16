@@ -221,11 +221,11 @@ invoker.setLogger(new PrintStreamLogger(System.err));
 ## 9. 测试与构建
 
 ```bash
-./mvnw clean verify     # 构建 + JaCoCo 覆盖率报告
-./mvnw clean install    # 安装到本地仓库
+mvn clean verify     # 运行契约测试并生成 JaCoCo 报告
+mvn clean install    # 安装到本地仓库
 ```
 
-- **测试**：本模块的 Surefire 配置默认跳过测试执行（`skipTests=true`）—— 渲染测试需要可用的 `wkhtmltopdf` 安装。测试源码中仍保留继承自上游包装器的参考 / 遗留实现（旧 API 形态）；它们**不属于**当前公共 API。
+- **测试**：`clean verify` 会运行当前模块的契约测试，这些测试无需安装原生 `wkhtmltopdf`；端到端渲染仍需要它。包含无关 Calibre API 的旧包装器示例保存在 `docs/historical-test-sources/`，不属于当前公共 API，也不参加测试编译。
 - **覆盖率门禁**：POM 配置了 JaCoCo，在 `verify` 阶段校验行覆盖率不低于 90%（`haltOnFailure=false`）。
 
 ## 10. 版本线与分支
