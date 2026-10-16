@@ -46,7 +46,7 @@
                 <!-- Dependency versions -->
                 <jsoup.version>1.22.2</jsoup.version>
                 <lombok.version>1.18.46</lombok.version>
-                <maven.test.skip>true</maven.test.skip>
+                <maven.test.skip>false</maven.test.skip>
             </properties>
         </profile>
         <profile>

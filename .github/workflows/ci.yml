@@ -35,7 +35,7 @@ jobs:
           cache: maven
 
       - name: Build and verify with JaCoCo coverage gate
-        run: mvn -B --no-transfer-progress clean verify
+        run: bash ./mvnw -B --no-transfer-progress clean verify
 
       - name: Upload JaCoCo coverage report
         if: always()
