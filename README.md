@@ -221,11 +221,11 @@ See `wkhtmltopdf.txt` at the repository root for the full command-line reference
 ## 9. Testing & Build
 
 ```bash
-./mvnw clean verify     # build + JaCoCo coverage report
-./mvnw clean install    # install into the local repository
+mvn clean verify     # run contract tests and generate the JaCoCo report
+mvn clean install    # install into the local repository
 ```
 
-- **Tests**: the Surefire configuration skips test execution by default (`skipTests=true`) in this module — rendering tests require a working `wkhtmltopdf` installation. The test sources still contain reference/legacy implementations inherited from the upstream wrapper (older API surface); they are **not** part of the current public API.
+- **Tests**: `clean verify` runs the module's current contract tests. These tests do not require a native `wkhtmltopdf` installation; an end-to-end rendering check does. Older wrapper examples with unrelated Calibre APIs are preserved under `docs/historical-test-sources/` and are not part of the current public API or compiled test suite.
 - **Coverage gate**: the POM configures JaCoCo with a 90% line-coverage minimum at the `verify` phase (`haltOnFailure=false`).
 
 ## 10. Versioning & Branches
