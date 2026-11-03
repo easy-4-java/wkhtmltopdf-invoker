@@ -44,9 +44,7 @@
             </activation>
             <properties>
                 <!-- Dependency versions -->
-                <jsoup.version>1.22.2</jsoup.version>
                 <lombok.version>1.18.46</lombok.version>
-                <maven.test.skip>false</maven.test.skip>
             </properties>
         </profile>
         <profile>
@@ -92,7 +90,7 @@
         <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
-        <jsoup.version>1.22.2</jsoup.version>
+        <jsoup.version>1.23.2</jsoup.version>
         <lombok.version>1.18.46</lombok.version>
     </properties>
     <dependencyManagement>
@@ -302,7 +300,7 @@
                         <skip>false</skip>
                         <skipTests>false</skipTests>
                         <forkMode>once</forkMode>
-                        <argLine>-Xmx1024m   -Dfile.encoding=UTF-8</argLine>
+                        <argLine>@{argLine} -Xmx1024m   -Dfile.encoding=UTF-8</argLine>
                         <additionalClasspathElements>
                             <additionalClasspathElement>${basedir}/target/test-classes</additionalClasspathElement>
                         </additionalClasspathElements>
@@ -392,7 +390,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <haltOnFailure>false</haltOnFailure>
+                            <haltOnFailure>true</haltOnFailure>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>
