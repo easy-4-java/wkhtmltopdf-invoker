@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Test;
@@ -180,5 +181,111 @@ public class WkhtmlToPdfCommandLineBuilderTest {
 
         Commandline cli = builder.build(request);
         assertNotNull(cli);
+    }
+
+    @Test
+    public void shouldResolveConfiguredHomeDirectory() throws Exception {
+        String previous = System.getProperty("wkhtmltopdf.home");
+        File home = Files.createTempDirectory("wkhtmltopdf-home-").toFile();
+        try {
+            System.setProperty("wkhtmltopdf.home", home.getAbsolutePath());
+            WkhtmlToPdfCommandLineBuilder builder = new WkhtmlToPdfCommandLineBuilder();
+            assertEquals(home, builder.findWkhtmltopdfHome());
+        } finally {
+            if (previous == null) {
+                System.clearProperty("wkhtmltopdf.home");
+            } else {
+                System.setProperty("wkhtmltopdf.home", previous);
+            }
+            Files.deleteIfExists(home.toPath());
+        }
+    }
+
+    @Test
+    public void shouldRejectHomePropertyThatIsNotDirectory() throws Exception {
+        String previous = System.getProperty("wkhtmltopdf.home");
+        File file = File.createTempFile("wkhtmltopdf-home-", ".txt");
+        try {
+            System.setProperty("wkhtmltopdf.home", file.getAbsolutePath());
+            WkhtmlToPdfCommandLineBuilder builder = new WkhtmlToPdfCommandLineBuilder();
+            try {
+                builder.findWkhtmltopdfHome();
+                org.junit.Assert.fail("Expected invalid home directory to be rejected");
+            } catch (IllegalStateException expected) {
+                assertTrue(expected.getMessage().contains("wkhtmltopdf.home"));
+            }
+        } finally {
+            if (previous == null) {
+                System.clearProperty("wkhtmltopdf.home");
+            } else {
+                System.setProperty("wkhtmltopdf.home", previous);
+            }
+            Files.deleteIfExists(file.toPath());
+        }
+    }
+
+    @Test
+    public void shouldResolveLegacyWeb2diskExecutableFromConfiguredHome() throws Exception {
+        File home = Files.createTempDirectory("web2disk-home-").toFile();
+        File executable = new File(home, "web2disk");
+        try {
+            assertTrue(executable.createNewFile());
+            WkhtmlToPdfCommandLineBuilder builder = new WkhtmlToPdfCommandLineBuilder();
+            builder.calibreHome = home;
+            assertEquals(executable.getCanonicalFile(), builder.findCalibreExecutable());
+        } finally {
+            Files.deleteIfExists(executable.toPath());
+            Files.deleteIfExists(home.toPath());
+        }
+    }
+
+    @Test
+    public void shouldResolveHomeFromEnvironmentWhenPropertyIsAbsent() throws Exception {
+        String previous = System.getProperty("wkhtmltopdf.home");
+        File home = Files.createTempDirectory("wkhtmltopdf-env-").toFile();
+        try {
+            System.clearProperty("wkhtmltopdf.home");
+            WkhtmlToPdfCommandLineBuilder builder = new WkhtmlToPdfCommandLineBuilder();
+            builder.systemEnvVars = new java.util.Properties();
+            builder.systemEnvVars.setProperty("WKHTMLTOPDF_HOME", home.getAbsolutePath());
+            assertEquals(home, builder.findWkhtmltopdfHome());
+        } finally {
+            if (previous != null) {
+                System.setProperty("wkhtmltopdf.home", previous);
+            }
+            Files.deleteIfExists(home.toPath());
+        }
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldRejectMissingLoggerBeforeBuildingCommand() throws Exception {
+        WkhtmlToPdfCommandLineBuilder builder = new WkhtmlToPdfCommandLineBuilder();
+        builder.setLogger(null);
+        builder.build(new DefaultWkhtmlToPdfInvocationRequest());
+    }
+
+    @Test
+    public void shouldWrapExecutableLookupFailure() throws Exception {
+        WkhtmlToPdfCommandLineBuilder builder = new WkhtmlToPdfCommandLineBuilder() {
+            @Override
+            protected File findWkhtmltopdfExecutable() throws IOException {
+                throw new IOException("executable unavailable");
+            }
+        };
+        try {
+            builder.build(new DefaultWkhtmlToPdfInvocationRequest());
+            org.junit.Assert.fail("Expected executable lookup failure");
+        } catch (CommandLineConfigurationException expected) {
+            assertTrue(expected.getCause() instanceof IOException);
+        }
+    }
+
+    @Test
+    public void shouldInheritHostEnvironmentWhenRequested() throws Exception {
+        WkhtmlToPdfCommandLineBuilder builder = new WkhtmlToPdfCommandLineBuilder();
+        DefaultWkhtmlToPdfInvocationRequest request = new DefaultWkhtmlToPdfInvocationRequest();
+        request.setURL("https://example.com");
+        request.setShellEnvironmentInherited(true);
+        assertNotNull(builder.build(request));
     }
 }

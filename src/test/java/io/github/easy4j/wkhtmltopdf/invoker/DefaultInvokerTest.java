@@ -7,9 +7,12 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import org.junit.Test;
 
+import io.github.easy4j.wkhtmltopdf.invoker.command.AbstractCommandLineBuilder;
 import io.github.easy4j.wkhtmltopdf.invoker.command.WkhtmlToImageCommandLineBuilder;
 import io.github.easy4j.wkhtmltopdf.invoker.command.WkhtmlToPdfCommandLineBuilder;
 import io.github.easy4j.wkhtmltopdf.invoker.request.DefaultWkhtmlToImageInvocationRequest;
@@ -135,5 +138,65 @@ public class DefaultInvokerTest {
         InvocationOutputHandler handler = new SystemOutHandler();
         Invoker returned = invoker.setOutputHandler(handler);
         assertSame(invoker, returned);
+    }
+
+    @Test
+    public void shouldExecuteCommandAndPassRequestEnvironment() throws Exception {
+        File executable = File.createTempFile("wkhtmltopdf-test-", ".sh");
+        try {
+            Files.write(executable.toPath(), ("#!/bin/sh\n"
+                    + "[ \"$WKHTML_TEST_VALUE\" = \"from-request\" ] || exit 8\n"
+                    + "[ -n \"$CALIBRE_HOME\" ] || exit 9\n"
+                    + "exit 7\n").getBytes(StandardCharsets.UTF_8));
+            assertTrue(executable.setExecutable(true));
+
+            DefaultInvoker invoker = new DefaultInvoker() {
+                @Override
+                protected AbstractCommandLineBuilder getCommandLineBuilder(InvocationRequest request) {
+                    return new WkhtmlToPdfCommandLineBuilder() {
+                        @Override
+                        protected File findWkhtmltopdfExecutable() {
+                            return executable;
+                        }
+                    };
+                }
+            };
+            DefaultWkhtmlToPdfInvocationRequest request = new DefaultWkhtmlToPdfInvocationRequest();
+            request.setURL("https://example.com");
+            request.setShellEnvironmentInherited(false);
+            request.setWkhtmltopdfHome(executable.getParentFile());
+            request.addShellEnvironment("WKHTML_TEST_VALUE", "from-request");
+            invoker.setWkhtmltopdfHome(executable.getParentFile());
+            invoker.setWorkingDirectory(executable.getParentFile());
+
+            InvocationResult result = invoker.execute(request);
+            assertNull(result.getExecutionException());
+            assertEquals(7, result.getExitCode());
+        } finally {
+            Files.deleteIfExists(executable.toPath());
+        }
+    }
+
+    @Test
+    public void shouldReturnExecutionExceptionWhenExecutableIsMissing() throws Exception {
+        File missingExecutable = new File("missing-wkhtmltopdf-test-executable").getAbsoluteFile();
+        DefaultInvoker invoker = new DefaultInvoker() {
+            @Override
+            protected AbstractCommandLineBuilder getCommandLineBuilder(InvocationRequest request) {
+                return new WkhtmlToPdfCommandLineBuilder() {
+                    @Override
+                    protected File findWkhtmltopdfExecutable() {
+                        return missingExecutable;
+                    }
+                };
+            }
+        };
+        DefaultWkhtmlToPdfInvocationRequest request = new DefaultWkhtmlToPdfInvocationRequest();
+        request.setURL("https://example.com");
+        request.setShellEnvironmentInherited(false);
+
+        InvocationResult result = invoker.execute(request);
+        assertNotNull(result.getExecutionException());
+        assertEquals(Integer.MIN_VALUE, result.getExitCode());
     }
 }

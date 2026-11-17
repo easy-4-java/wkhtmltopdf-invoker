@@ -197,7 +197,7 @@
                         <skip>false</skip>
                         <skipTests>false</skipTests>
                         <forkMode>once</forkMode>
-                        <argLine>-Xmx1024m
+                        <argLine>@{argLine} -Xmx1024m
 							-Dfile.encoding=UTF-8</argLine>
                         <additionalClasspathElements>
                             <additionalClasspathElement>${basedir}/target/test-classes</additionalClasspathElement>
@@ -299,7 +299,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <haltOnFailure>false</haltOnFailure>
+                            <haltOnFailure>true</haltOnFailure>
                             <rules>
                                 <rule>
                                     <element>BUNDLE</element>
@@ -353,9 +353,7 @@
                     <!-- Dependency versions -->
                     <additionalparam>-Xdoclint:none</additionalparam>
                     <central-maven-publishing-plugin.version>0.11.0</central-maven-publishing-plugin.version>
-                    <jsoup.version>1.22.2</jsoup.version>
                     <lombok.version>1.18.46</lombok.version>
-                    <maven.test.skip>true</maven.test.skip>
                     <!-- Maven Plugin versions -->
                     <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
                     <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
@@ -529,8 +527,8 @@
             <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
             <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
             <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
-            <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
-        <jsoup.version>1.22.2</jsoup.version>
+            <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+        <jsoup.version>1.23.2</jsoup.version>
         <lombok.version>1.18.46</lombok.version>
         <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
     </properties>
