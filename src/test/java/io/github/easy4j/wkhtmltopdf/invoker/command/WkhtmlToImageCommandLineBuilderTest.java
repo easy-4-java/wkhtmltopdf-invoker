@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 import org.codehaus.plexus.util.cli.Commandline;
 import org.junit.Test;
@@ -132,5 +133,20 @@ public class WkhtmlToImageCommandLineBuilderTest {
         String cliStr = cli.toString();
         assertTrue(cliStr.contains("-D"));
         assertTrue(cliStr.contains("myKey=myValue"));
+    }
+
+    @Test
+    public void shouldResolveLegacyLrs2lrfExecutableFromConfiguredHome() throws Exception {
+        File home = Files.createTempDirectory("lrs2lrf-home-").toFile();
+        File executable = new File(home, "lrs2lrf");
+        try {
+            assertTrue(executable.createNewFile());
+            WkhtmlToImageCommandLineBuilder builder = new WkhtmlToImageCommandLineBuilder();
+            builder.calibreHome = home;
+            assertEquals(executable.getCanonicalFile(), builder.findCalibreExecutable());
+        } finally {
+            Files.deleteIfExists(executable.toPath());
+            Files.deleteIfExists(home.toPath());
+        }
     }
 }
